@@ -1,0 +1,88 @@
+﻿@page
+@model testingpage.Pages.ProductPage.AdminHomeModel
+@{
+    Layout = "../Shared/_Layout1.cshtml";
+}
+<style>
+    th{
+        text-align:center;
+    }
+</style>
+<div class="text-center">
+    @if (Model.MessageKey != null)
+    {
+        <div class="alert alert-success">
+            <strong>@Model.MessageKey</strong>
+        </div>
+
+
+    }
+    <h1 class="display-4">Admin Page</h1>
+    <div class="text-left" style="margin-left:80px">
+        <button type="submit" class="btn btn-warning" onclick="window.location.href ='/ProductPage/CreateProduct';">Create Product</button>
+    </div>
+    @{
+        if (Model.productList.Data.Count != 0)
+        {
+            <table style="width:100%">
+                <tr>
+                    <th style="text-align:center">Image</th>
+                    <th style="text-align:center">Product Name</th>
+                    <th style="text-align:center">Description</th>
+                    <th style="text-align:center">Price</th>
+                    <th style="text-align:center">Stock</th>
+                    <th style="text-align:center">Status</th>
+                    <th style="text-align:center">Edit</th>
+
+                </tr>
+
+                @for (int i = 0; i < Model.productList.Data.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <img src="https://localhost:44335/ProductImages/@Model.productList.Data[i].Image" alt="Image" style="width:120px;height:100px;" />
+                        </td>
+                        <td>@Html.DisplayFor(model => model.productList.Data[i].ProductName)</td>
+                        <td>@Html.DisplayFor(model => model.productList.Data[i].Description)</td>
+                        <td>@Html.DisplayFor(model => model.productList.Data[i].Price)</td>
+                        <td>@Html.DisplayFor(model => model.productList.Data[i].Stock)</td>
+                        <td>@Html.DisplayFor(model => model.productList.Data[i].Status)</td>
+                        <td><input type="button" class="btn btn-primary" value="Edit" onclick="window.location.href = '/ProductPage/EditProduct?id=@Model.productList.Data[i].ProductId'" /></td>
+                        @*<td><input type="button" class="btn btn-primary" value="Delete" onclick="if (confirm('Are you sure want delete this product')) window.location.href = '/ProductPage/DeleteProduct?id=@Model.productList.products[i].ProductId';"></td>*@
+                    </tr>
+
+                }
+            </table>
+            <ul class="pagination">
+                @for (int i = 1; i <= Model.productList.TotalPages; i++)
+                {
+
+                    if (Model.productList.PageNumber == i)
+                    {
+                        <li class="active"><a asp-page="AdminHome" asp-route-GetPageNumber="@i">@i</a></li>
+
+                    }
+                    else
+                    {
+                        <li><a asp-page="AdminHome" asp-route-GetPageNumber="@i">@i</a></li>
+                    }
+
+                }
+            </ul>
+
+
+        }
+        else if (Model.PageNumberWarning != null)
+        {
+            <label class="text-center" style="font-size:100%;color:blue;">@Model.PageNumberWarning</label>
+        }
+        else
+        {
+            <label class="text-center" style="font-size:200%;color:blue;">New product Coming Soon</label>
+        }
+    }
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</div>
+

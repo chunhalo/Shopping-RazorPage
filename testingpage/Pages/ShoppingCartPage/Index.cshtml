@@ -1,0 +1,122 @@
+﻿@page
+@model testingpage.Pages.ShoppingCartPage.IndexModel
+@using testingpage.Models
+@{
+}
+
+
+
+<div class="text-center">
+    @if (Model.MessageKey != null && Model.MessageKey.Equals("Delete successfully"))
+    {
+        <div class="alert alert-success">
+            <strong>@Model.MessageKey</strong>
+        </div>
+    }
+    <h1 class="display-4">Shopping Cart</h1>
+    <form method="post">
+        @{
+
+            if (Model.cartList.Count != 0)
+            {
+                <div class="row" style="margin:5px;font-weight:bold">
+                    <div class="col-md-2">
+                        <input type="checkbox" id="toggleAll" />
+                    </div>
+                    <div class="col-md-2">
+                        @Html.DisplayNameFor(model => model.cartList[0].product.Image)
+
+                    </div>
+                    <div class="col-md-2">
+                        @Html.DisplayNameFor(model => model.cartList[0].product.ProductName)
+                    </div>
+                    <div class="col-md-2">
+                        @Html.DisplayNameFor(model => model.cartList[0].product.Price)
+                    </div>
+                    <div class="col-md-2">
+                        @Html.DisplayNameFor(model => model.cartList[0].quantity)
+                    </div>
+                    <div class="col-md-2">
+                        <label>Subtotal</label>
+                    </div>
+                </div>
+                @for (int i = 0; i < Model.cartList.Count; i++)
+                {
+                    <div class="row" style="margin:5px">
+                        <div class="col-md-2">
+                            @Html.CheckBoxFor(model => model.cartList[i].IsSelected, new { @class = "w3-check" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.HiddenFor(model => model.cartList[i].product.Description)
+                            @Html.HiddenFor(model => model.cartList[i].product.ProductId)
+                            @Html.HiddenFor(model => model.cartList[i].quantity)
+                            <a asp-page="/ProductPage/individualProduct" asp-route-id="@Model.cartList[i].product.ProductId">
+                                <img src="https://localhost:44335/ProductImages/@Model.cartList[i].product.Image" alt="Image" style="width:120px;height:100px;" />
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.cartList[i].product.ProductName)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.cartList[i].product.Price)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.cartList[i].quantity)
+                        </div>
+                        <div class="col-md-2">
+
+                            @{
+                                var subtotal = (Model.cartList[i].product.Price * Model.cartList[i].quantity);
+                            }
+                            @String.Format("{0:c}", subtotal)
+                        </div>
+                    </div>
+
+                }
+                <input type="submit" class="btn btn-warning" value="Delete" asp-page-handler="DeleteCart" />
+                <input type="submit" class="btn btn-primary" value="Pay" asp-page-handler="PayCart" />
+
+
+            }
+            else
+            {
+                <label class="text-center" style="font-size:200%;color:blue;">No item added yet</label>
+            }
+
+
+        }
+
+
+
+    </form>
+    @if (Model.MessageKey != null && !Model.MessageKey.Equals("Delete successfully"))
+    {
+        <label class="text-center" style="font-size:100%;color:red;">@Model.MessageKey</label>
+    }
+    @if (Model.responses != null)
+    {
+         <label class="text-center" style="font-size:100%;color:red;">@Html.Raw(Model.responses)</label>
+    }
+
+
+
+</div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#toggleAll").click(function () {
+            if ($(this).is(":checked")) {
+                $(".w3-check").prop('checked', true);
+            }
+            else {
+                $(".w3-check").prop('checked', false);
+            }
+        });
+    })
+</script>
+
+

@@ -1,0 +1,44 @@
+﻿@page
+@model testingpage.Pages.ProductPage.CreateProductModel
+@{
+    Layout = "../Shared/_Layout1.cshtml";
+}
+<h2>Add Product</h2>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" asp-for="product.Image" />
+    <span asp-validation-for="product.Image" style="color:red"></span>
+    <div class="form-group">
+        <label asp-for="product.ProductName"></label>
+        <input class="form-control" asp-for="product.ProductName" />
+        <span asp-validation-for="product.ProductName" style="color:red"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="product.Price"></label>
+        <input class="form-control" asp-for="product.Price" />
+        <span asp-validation-for="product.Price" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="product.Description"></label>
+        <input class="form-control" asp-for="product.Description" />
+        <span asp-validation-for="product.Description" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="product.Stock"></label>
+        <input class="form-control" asp-for="product.Stock" />
+        <span asp-validation-for="product.Stock" style="color:red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="product.Status"></label>
+        @Html.DropDownListFor(model => model.product.Status, new SelectList(Model.productStatus, "Id", "StatusName"), "==Choose a status==", new { @class = "form-control" })
+        <span asp-validation-for="product.Status" style="color:red"></span>
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+    </div>
+</form>
+@section scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

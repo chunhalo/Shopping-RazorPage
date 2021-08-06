@@ -1,0 +1,56 @@
+﻿@page
+@model testingpage.Pages.ProductPage.individualProductModel
+@{
+}
+
+<style>
+    td {
+        padding: 15px;
+    }
+</style>
+
+@{
+    if (Model.product != null)
+    {
+    <form method="post" enctype="multipart/form-data">
+        @Html.HiddenFor(model => model.product.ProductId)
+        <div class="row">
+            <div class="col-md-2">
+                <img src="https://localhost:44335/ProductImages/@Model.product.Image" alt="Image" width="200" height="200" />
+            </div>
+            <table style="margin-left:100px">
+                <tr>
+                    <td><label asp-for="product.ProductName"></label>:</td>
+                    <td>@Html.DisplayFor(model => model.product.ProductName)</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="product.Description"></label>:</td>
+                    <td>@Html.DisplayFor(model => model.product.Description)</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="product.Price"></label>:</td>
+                    <td>@Html.DisplayFor(model => model.product.Price)</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="product.Stock"></label>:</td>
+                    <td>@Html.DisplayFor(model => model.product.Stock)</td>
+                </tr>
+                <tr>
+                    <td><label>Quantity:</label></td>
+                    <td><input type="number" id="quantity" name="quantity" min="1" max="@Model.product.Stock" value="1"></td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="text-center panel-body" style="300px">
+            <button type="submit" class="btn btn-sm btn-primary">Add</button>
+        </div>
+    </form>
+    }
+    else
+    {
+        <label class="text-center" style="font-size:200%;color:blue;">@ViewData["NotFound"]</label>
+    }
+
+}
+

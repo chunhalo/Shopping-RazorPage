@@ -1,0 +1,64 @@
+﻿@page
+@model testingpage.Pages.ProductPage.EditProductModel
+@{
+    Layout = "../Shared/_Layout1.cshtml";
+
+}
+
+@{
+    if (Model.product != null)
+    {
+        <h2>Update a Product</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="product.Image"></label>
+                <br />
+                <img src="https://localhost:44335/ProductImages/@Model.product.Image" alt="Image" width="200" height="200" />
+            </div>
+            <input type="file" asp-for="GetImage" />
+            <input type="hidden" asp-for="product.ProductId" />
+            <input type="hidden" asp-for="product.Image" />
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="product.ProductName"></label>
+                <input class="form-control" asp-for="product.ProductName" />
+                <span asp-validation-for="product.ProductName" style="color:red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="product.Price"></label>
+                <input class="form-control" asp-for="product.Price" />
+                <span asp-validation-for="product.Price" style="color:red"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="product.Description"></label>
+                <input class="form-control" asp-for="product.Description" />
+                <span asp-validation-for="product.Description" style="color:red"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="product.Stock"></label>
+                <input class="form-control" asp-for="product.Stock" />
+                <span asp-validation-for="product.Stock" style="color:red"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="product.Status"></label>
+                @Html.DropDownListFor(model => model.product.Status, new SelectList(Model.productStatus, "Id", "StatusName"), "==Choose a status==", new { @class = "form-control" })
+                <span asp-validation-for="product.Status" style="color:red"></span>
+            </div>
+            <div class="text-center panel-body">
+                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+            </div>
+        </form>
+        <label class="text-center" style="font-size:100%;color:red;">@Model.MessageKey</label>
+    }
+    else
+    {
+        <label class="text-center" style="font-size:200%;color:blue;">@ViewData["NotFound"]</label>
+    }
+}
+
+@section scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

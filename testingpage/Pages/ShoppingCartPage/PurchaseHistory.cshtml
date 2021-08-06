@@ -1,0 +1,61 @@
+﻿@page
+@model testingpage.Pages.ShoppingCartPage.PurchaseHistoryModel
+@{
+}
+<style>
+    td {
+        padding: 20px;
+    }
+</style>
+<div class="text-center">
+    <h1 class="display-4">Purchase History</h1>
+    @{
+        if (Model.returnOrder.Data.Count != 0)
+        {
+            <table style="width:100%;margin-left:20px">
+                <tr>
+                    <th style="text-align:center">Track Id</th>
+                    <th style="text-align:center">OrderDate</th>
+                </tr>
+                @for (int i = 0; i < Model.returnOrder.Data.Count; i++)
+                {
+                    <tr>
+                        <td style="padding:40px"><a asp-page="/ShoppingCartPage/TrackOrder" asp-route-id="@Model.returnOrder.Data[i].OrderId">@Html.DisplayFor(model => model.returnOrder.Data[i].OrderId)</a></td>
+                        <td style="padding:20px">@Html.DisplayFor(model => model.returnOrder.Data[i].OrderDate)</td>
+                    </tr>
+                }
+            </table>
+            <ul class="pagination">
+                @for (int i = 1; i <= Model.returnOrder.TotalPages; i++)
+                {
+
+                    if (Model.returnOrder.PageNumber == i)
+                    {
+                        <li class="active"><a asp-page="PurchaseHistory" asp-route-GetPageNumber="@i">@i</a></li>
+
+                    }
+                    else
+                    {
+                        <li><a asp-page="PurchaseHistory" asp-route-GetPageNumber="@i">@i</a></li>
+                    }
+
+                }
+            </ul>
+
+
+
+        }
+        else if(Model.returnOrder.Data.Count==0)
+        {
+            <label class="text-center" style="font-size:200%;color:blue;">No item added yet</label>
+        }
+        else if (Model.PageNumberWarning != null)
+        {
+            <label class="text-center" style="font-size:100%;color:blue;">@Model.PageNumberWarning</label>
+        }
+
+    }
+</div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

@@ -1,0 +1,68 @@
+﻿@page
+@model testingpage.Pages.ShoppingCartPage.TrackOrderModel
+@{
+}
+<style>
+    td {
+        padding: 20px;
+    }
+</style>
+<div class="text-center">
+    <h1 class="display-4">Purchase History</h1>
+    @{
+        decimal total=0M;
+        if (Model.returnOrderDetails.Count != 0)
+        {
+            <table style="width:100%">
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+                @for (int i = 0; i < Model.returnOrderDetails.Count; i++)
+                {
+
+                    <tr>
+                        <td><img src="https://localhost:44335/ProductImages/@Model.returnOrderDetails[i].product.Image" alt="Image" width="150" height="150" /></td>
+                        <td style="padding:40px">@Html.DisplayFor(model => model.returnOrderDetails[i].product.ProductName)</td>
+                        <td style="padding:40px">@Html.DisplayFor(model => model.returnOrderDetails[i].product.Description)</td>
+                        <td style="padding:10px">@Html.DisplayFor(model => model.returnOrderDetails[i].product.Price)</td>
+                        <td style="padding:10px">@Html.DisplayFor(model => model.returnOrderDetails[i].quantity)</td>
+                        <td style="padding:10px">
+                            @{
+                                var subtotal = Model.returnOrderDetails[i].product.Price * Model.returnOrderDetails[i].quantity;
+                                total += subtotal;
+                            }
+                            <label>@String.Format("{0:c}", subtotal)</label>
+                        </td>
+
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total:</td>
+                    <td>@String.Format("{0:c}", total)</td>
+                </tr>
+            </table>
+            <button type="submit" class="btn btn-warning" onclick="window.location.href ='/ShoppingCartPage/PurchaseHistory';">Back</button>
+        }
+    }
+</div>
+@*<td><img src="https://localhost:44335/ProductImages/@Model.returnOrderDetails[i].product.Image" alt="Image" width="150" height="150" /></td>
+    <td style="padding:40px">@Html.DisplayFor(model => model.returnOrderDetails[i].product.ProductName)</td>
+    <td style="padding:40px">@Html.DisplayFor(model => model.returnOrderDetails[i].product.Description)</td>
+    <td style="padding:20px">@Html.DisplayFor(model => model.returnOrderDetails[i].orderDate)</td>
+    <td style="padding:10px">@Html.DisplayFor(model => model.returnOrderDetails[i].product.Price)</td>
+    <td style="padding:10px">@Html.DisplayFor(model => model.returnOrderDetails[i].quantity)</td>
+    <td style="padding:10px">
+        @{
+            var subtotal = Model.returnOrderDetails[i].product.Price * Model.returnOrderDetails[i].quantity;
+        }
+        <label>@String.Format("{0:c}", subtotal)</label>
+    </td>*@

@@ -1,0 +1,95 @@
+﻿@page
+@model testingpage.Pages.ProductPage.HomePageModel
+@{
+}
+@using testingpage.Models
+
+
+
+<div class="text-center">
+    @if (Model.MessageKey != null)
+    {
+        <div class="alert alert-success">
+            <strong>@Model.MessageKey</strong>
+        </div>
+
+
+    }
+    <h1 class="display-4">Welcome</h1>
+
+    @{
+
+        List<Product> products = Model.productList.Data;
+        if (products.Count != 0)
+        {
+
+            <div class="row">
+                @for (int i = 0; i < Model.productList.Data.Count; i++)
+                {
+                    <div id="dataListItem" class="col-md-4" style="margin-top:10px;">
+
+                        <a asp-page="/ProductPage/individualProduct" asp-route-id="@Model.productList.Data[i].ProductId">
+                            <img src="https://localhost:44335/ProductImages/@Model.productList.Data[i].Image" alt="Image" width="200" height="200" />
+                        </a>
+                        <p>
+
+                            <label asp-for="@Model.productList.Data[i].ProductName"></label>:
+                            @Html.DisplayFor(model => model.productList.Data[i].ProductName)
+
+                            <br />
+
+                            <label asp-for="@Model.productList.Data[i].Price"></label>:
+                            @Html.DisplayFor(model => model.productList.Data[i].Price)
+                            <br />
+                            <label asp-for="@Model.productList.Data[i].Stock"></label>:
+                            @Html.DisplayFor(model => model.productList.Data[i].Stock)
+                        </p>
+
+
+
+
+
+                    </div>
+                }
+            </div>
+
+            <ul class="pagination">
+                @for (int i = 1; i <= Model.productList.TotalPages; i++)
+                {
+
+                    if (Model.productList.PageNumber == i)
+                    {
+                        <li class="active"><a asp-page="HomePage" asp-route-GetPageNumber="@i">@i</a></li>
+
+                    }
+                    else
+                    {
+                        <li><a asp-page="HomePage" asp-route-GetPageNumber="@i">@i</a></li>
+                    }
+
+                }
+            </ul>
+
+
+        }
+        else if (Model.PageNumberWarning != null)
+        {
+            <label class="text-center" style="font-size:100%;color:blue;">@Model.PageNumberWarning</label>
+        }
+        else
+        {
+            <label class="text-center" style="font-size:200%;color:blue;">New product Coming Soon</label>
+        }
+
+    }
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</div>
+
+
+
+
+
